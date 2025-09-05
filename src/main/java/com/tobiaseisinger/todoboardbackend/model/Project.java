@@ -3,21 +3,25 @@ package com.tobiaseisinger.todoboardbackend.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Task {
+@AllArgsConstructor
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch =  FetchType.EAGER)
-    @NotNull
-    private Project project;
+    @ManyToOne
+    private User user;
 
     @NotNull
     @Size(min = 1, max = 100)
@@ -28,5 +32,6 @@ public class Task {
     private String description;
 
     @NotNull
-    private TaskStatus status;
+    @OneToMany(cascade = CascadeType.ALL, fetch =  FetchType.EAGER)
+    private List<Task> tasks;
 }
